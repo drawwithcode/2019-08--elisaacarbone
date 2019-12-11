@@ -46,12 +46,26 @@ function draw() {
   noStroke();
   ellipse(polimi.x, polimi.y, 20);
 
+  //draw a circle where the user is
+  var myPosition = myMap.latLngToPixel(myLat, myLon);
+  fill(255, 0, 0);
+  noStroke();
+  ellipse(myPosition.x, myPosition.y, 20);
+
+  //draw a line between the user and the polimi
+  push();
+  stroke("red");
+  strokeWeight(2);
+  fill("red");
+  line(polimi.x, polimi.y, myPosition.x, myPosition.y);
+  pop();
+
   //define the label polimi
   push();
   fill(20);
   stroke(80);
   rectMode(CENTER);
-  rect(polimi.x, polimi.y - 40, 80, 30);
+  rect(polimi.x, polimi.y + 40, 80, 30);
   pop();
 
   push();
@@ -60,16 +74,10 @@ function draw() {
   textFont("Tomorrow");
   textAlign(CENTER, CENTER);
   textSize(18);
-  text("Polimi", polimi.x, polimi.y - 40);
+  text("Polimi", polimi.x, polimi.y + 40);
   pop();
 
-  //draw a circle where the user is
-  var myPosition = myMap.latLngToPixel(myLat, myLon);
-  fill(255, 0, 0);
-  noStroke();
-  ellipse(myPosition.x, myPosition.y, 20);
-
-  //deifne the label you
+  //define the label you
   push();
   fill(20);
   stroke(80);
@@ -86,19 +94,12 @@ function draw() {
   text("You", myPosition.x, myPosition.y - 40);
   pop();
 
-  //draw a line between the user and the polimi
-  push();
-  stroke("red");
-  strokeWeight(2);
-  fill("red");
-  line(polimi.x, polimi.y, myPosition.x, myPosition.y);
-  pop();
-
   //get the distance between the user and polimi
-  var distance = dist(polimi.x, polimi.y, myPosition.x, myPosition.y);
+  var distance = dist(poliLat, poliLon, myLat, myLon);
+  console.log(distance);
 
   //if the user is too far from polimi he's a bad student
-  if (distance > 15) {
+  if (distance > 0.005) {
     //label you're a bad student
     push();
     fill(20);
